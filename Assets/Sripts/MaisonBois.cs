@@ -7,12 +7,13 @@ public class MaisonBois : MonoBehaviour
     private bool EPEE = false;
     private bool PIOCHE = false;
     private bool HACHE = true;
-    [SerializeField]
-    private float timeToDestroy = 5f;
+
+    private float timeToDestroy = 4f;
     public bool destructed = false;
     private float timeBeforeDestroying;
 
     float neededTime;
+    float neededTimeRepear;
 
     // Start is called before the first frame update
     void Start()
@@ -23,26 +24,32 @@ public class MaisonBois : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var maisonRenderer = this.GetComponent<Renderer>();
+
         if (destructed == true)
         {
             timeBeforeDestroying += Time.deltaTime;
-            if (timeBeforeDestroying > 5)
+            maisonRenderer.material.SetColor("_Color", Color.red);
+            if (timeBeforeDestroying > 10)
                 Destroy(gameObject);
+        }
+        else
+        {
+            maisonRenderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f); //On remet le cochon bien 
         }
     }
 
     void OnTriggerStay(Collider other) //Si on rencontre un mob
     {
-        Debug.Log("entrere");
+ 
         if (other.gameObject.tag == "destroyer") //Si c'est le joueur qui détruit
         {
             if (destructed == false) //Si le cochon n'est pas détruit
             {
                 neededTime += Time.deltaTime;
-                Debug.Log(neededTime);
+               
                 if (neededTime > timeToDestroy)
                 {
-                    Debug.Log("tout est bon dans le cochon");
                     destructed = true;
 
                 }
@@ -52,14 +59,13 @@ public class MaisonBois : MonoBehaviour
 
         if (other.gameObject.tag == "repareur") //Si c'est le joueur qui détruit
         {
-            neededTime = 0;
+
             if (destructed == true) //Si le cochon est détruit
             {
-                neededTime += Time.deltaTime;
-                Debug.Log(neededTime);
-                if (neededTime > timeToDestroy)
+
+                neededTimeRepear += Time.deltaTime;
+                if (neededTimeRepear > timeToDestroy)
                 {
-                    Debug.Log("tout est bon dans le cochon");
                     destructed = false;
 
                 }

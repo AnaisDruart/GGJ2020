@@ -60,7 +60,7 @@ public class MouvementJoueur : MonoBehaviour
         {
                 if (other.gameObject.name == "Cochon" || other.gameObject.name == "MurPierre" || other.gameObject.name == "MaisonBois")
                 {
-                    if (this.tag == "destroyer")
+                    if (this.tag == "destroyer") //Si on est le destructeur
                 {
                     if (other.gameObject.name == "Cochon")
                     {
@@ -90,6 +90,36 @@ public class MouvementJoueur : MonoBehaviour
                         }
                     }
 
+                }
+                    else //Si on est le répareur
+                {
+                    if (other.gameObject.name == "Cochon")
+                    {
+                        cochonous = other.gameObject;
+                        Cochon targetScript = cochonous.GetComponent<Cochon>();
+                        if (targetScript.destructed == true)
+                        {
+                            inAction = true;
+                        }
+                    }
+                    if (other.gameObject.name == "MurPierre")
+                    {
+                        murous = other.gameObject;
+                        MurPierre targetScript = murous.GetComponent<MurPierre>();
+                        if (targetScript.destructed == true)
+                        {
+                            inAction = true;
+                        }
+                    }
+                    if (other.gameObject.name == "MaisonBois")
+                    {
+                        maisonous = other.gameObject;
+                        MaisonBois targetScript = maisonous.GetComponent<MaisonBois>();
+                        if (targetScript.destructed == true)
+                        {
+                            inAction = true;
+                        }
+                    }
                 }
                 //if (Cochon.destructed == false;)
 

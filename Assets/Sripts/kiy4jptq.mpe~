@@ -8,12 +8,11 @@ public class Cochon : MonoBehaviour
     private bool PIOCHE = false;
     private bool HACHE = false;
  
-    private float timeToDestroy = 2f;
+    private float timeToDestroy = 1f;
     public bool destructed = false;
     private float timeBeforeDestroying;
 
-    float neededTimeDestroy;
-    float neededTimeRepear;
+    float neededTime;
 
     // Start is called before the first frame update
     void Start()
@@ -48,8 +47,8 @@ public class Cochon : MonoBehaviour
         {
             if (destructed == false) //Si le cochon n'est pas détruit
             {
-                neededTimeDestroy += Time.deltaTime;
-                if (neededTimeDestroy > timeToDestroy)
+                neededTime += Time.deltaTime;
+                if (neededTime > timeToDestroy)
                 {
                     destructed = true;
 
@@ -61,12 +60,14 @@ public class Cochon : MonoBehaviour
             if (other.gameObject.tag == "repareur") //Si c'est le joueur qui détruit
             {
             
+                neededTime = 0;
                 if (destructed == true) //Si le cochon est détruit
                 {
                     
-                    neededTimeRepear += Time.deltaTime;
-                    if (neededTimeRepear > timeToDestroy)
+                    neededTime += Time.deltaTime;
+                    if (neededTime > timeToDestroy)
                     {
+                    Debug.Log("REPAREEEEEEEEUR");
                     destructed = false;
 
                     }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MurPierre : MonoBehaviour
+public class MaisonBois : MonoBehaviour
 {
     private bool EPEE = false;
-    private bool PIOCHE = true;
-    private bool HACHE = false;
-  
-    private float timeToDestroy = 6f;
+    private bool PIOCHE = false;
+    private bool HACHE = true;
+
+    private float timeToDestroy = 4f;
     public bool destructed = false;
     private float timeBeforeDestroying;
 
@@ -24,30 +24,25 @@ public class MurPierre : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var murRenderer = this.GetComponent<Renderer>();
-
         if (destructed == true)
         {
             timeBeforeDestroying += Time.deltaTime;
-            
-            murRenderer.material.SetColor("_Color", Color.red);
-            if (timeBeforeDestroying > 15)
+            var maisonRenderer = this.GetComponent<Renderer>();
+            maisonRenderer.material.SetColor("_Color", Color.red);
+            if (timeBeforeDestroying > 5)
                 Destroy(gameObject);
-        }
-        else
-        {
-            murRenderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f); //On remet le cochon bien 
         }
     }
 
     void OnTriggerStay(Collider other) //Si on rencontre un mob
     {
-
+ 
         if (other.gameObject.tag == "destroyer") //Si c'est le joueur qui détruit
         {
             if (destructed == false) //Si le cochon n'est pas détruit
             {
                 neededTime += Time.deltaTime;
+               
                 if (neededTime > timeToDestroy)
                 {
                     destructed = true;
@@ -72,7 +67,6 @@ public class MurPierre : MonoBehaviour
             }
         }
 
-       
     }
 
 }

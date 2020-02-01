@@ -12,8 +12,7 @@ public class Cochon : MonoBehaviour
     public bool destructed = false;
     private float timeBeforeDestroying;
 
-    float neededTimeDestroy;
-    float neededTimeRepear;
+    float neededTime;
 
     // Start is called before the first frame update
     void Start()
@@ -24,19 +23,14 @@ public class Cochon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var cochonRenderer = this.GetComponent<Renderer>(); //On chope le renderer du cochon pour pouvoir le modifier
-
-        if (destructed == true) //S'il est en train d'être détruit
+        
+        if (destructed == true)
         {
-            timeBeforeDestroying += Time.deltaTime; //Timer 
-            
-            cochonRenderer.material.SetColor("_Color", Color.red); //On colorie le cochon en rouge
-            if (timeBeforeDestroying > 5 && destructed == true) //Si ça fait 5secondes que le cochon se détruit sans être réparé
-                Destroy(gameObject); //Couic
-        }
-        else
-        {
-            cochonRenderer.material.color = new Color(1.0f,1.0f,1.0f,1.0f); //On remet le cochon bien 
+            timeBeforeDestroying += Time.deltaTime;
+            var cochonRenderer = this.GetComponent<Renderer>();
+            cochonRenderer.material.SetColor("_Color", Color.red);
+            if (timeBeforeDestroying > 5)
+                Destroy(gameObject);
         }
             
     }
@@ -48,9 +42,10 @@ public class Cochon : MonoBehaviour
         {
             if (destructed == false) //Si le cochon n'est pas détruit
             {
-                neededTimeDestroy += Time.deltaTime;
-                if (neededTimeDestroy > timeToDestroy)
+                neededTime += Time.deltaTime;
+                if (neededTime > timeToDestroy)
                 {
+                    Debug.Log("tout est bon dans le cochon");
                     destructed = true;
 
                 }
@@ -60,14 +55,15 @@ public class Cochon : MonoBehaviour
 
             if (other.gameObject.tag == "repareur") //Si c'est le joueur qui détruit
             {
-            
+                neededTime = 0;
                 if (destructed == true) //Si le cochon est détruit
                 {
-                    
-                    neededTimeRepear += Time.deltaTime;
-                    if (neededTimeRepear > timeToDestroy)
+                    neededTime += Time.deltaTime;
+                    Debug.Log(neededTime);
+                    if (neededTime > timeToDestroy)
                     {
-                    destructed = false;
+                        Debug.Log("tout est bon dans le cochon");
+                        destructed = false;
 
                     }
                 }
